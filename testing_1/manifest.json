@@ -3,17 +3,12 @@
   "description": "A nice little demo extension.",
   "version": "2.1",
   "manifest_version": 3,
-  "icons": {
-    "16": "images/icon_16.png",
-    "48": "images/icon_48.png",
-    "128": "images/icon_128.png"
-  },
+  
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
       "matches": [
-        "https://*.youtube.com/*",
-        "https://www.youtube.com/watch?v=*"
+        "https://*.youtube.com/*"
       ]
     }
   ],
@@ -21,7 +16,7 @@
     "service_worker": "scripts/background.js"
   },
   "permissions": ["storage", "tabs"],
-  "host_permissions": ["*://*.example.com/*", "https://*.youtube.com/*"],
+  "host_permissions": ["https://*.youtube.com/*"],
 
   "web_accessible_resources": [
     {
