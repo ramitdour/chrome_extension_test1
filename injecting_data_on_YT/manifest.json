@@ -1,0 +1,80 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Youtube Extensions",
+  "description": "Base Level Extension",
+  "version": "1.0",
+
+  "action": {
+    "default_title": "Click to view a popup",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    }
+  },
+
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  
+   "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage", 
+    "scripting",
+    "tabs"
+  ],
+  
+
+  "optional_permissions": [
+    "topSites"
+  ],
+  "host_permissions": [
+    "https://www.developer.chrome.com/*",
+    "https://*.youtube.com/*"
+
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/bookmark.png",
+        "images/play.png",
+        "images/delete.png",
+        "images/save.png"
+      ],
+      "matches": ["https://*.youtube.com/*"]
+    }
+  ],
+
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/content.js"
+      ],
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://ramitdour.com/",
+        "https://developer.chrome.com/docs/extensions/*",
+        "https://developer.chrome.com/docs/webstore/*"
+      ]
+    }
+  ],
+
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Q",
+        "mac": "Command+U"
+      }
+    }
+  }
+}

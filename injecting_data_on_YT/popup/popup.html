@@ -1,0 +1,51 @@
+<head>
+  <style></style>
+  <script src="popup.js"></script>
+</head>
+<body>
+  <h1>hello ramit</h1>
+
+  <div>
+    <button onclick="decreaseValue_popup()">-</button>
+    <input type="number" id="number_popup" value="0" style="width: 4em" />
+    <button onclick="increaseValue_popup()">+</button>
+  </div>
+
+  <br />
+
+  <div>
+    <button onclick="decreaseValue_content()">-</button>
+    <input type="number" id="number_content" value="0" style="width: 4em" />
+    <button onclick="increaseValue_content()">+</button>
+  </div>
+
+  <br />
+
+  <div>
+    <button onclick="decreaseValue_background()">-</button>
+    <input type="number" id="number_background" value="0" style="width: 4em" />
+    <button onclick="increaseValue_background()">+</button>
+  </div>
+
+  <br />
+
+  <div>
+    <input type="text" id="input_text_p2c" value="input_text_p2c">
+    <button id="button_text_p2c" onclick="send_text_p2c()" >Send to Content</button>
+  </div>
+
+  <br />
+
+  <div>
+    <input type="text" id="input_text_p2b" value="input_text_p2b">
+    <button id="button_text_p2b"  >Send to Background</button>
+  </div>
+
+  <br />
+
+  <div>
+    
+    <button id="this_tab_info"  >this_tab_info</button>
+  </div>
+
+</body>

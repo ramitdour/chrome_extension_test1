@@ -1,0 +1,119 @@
+console.log("START background.js");
+console.log((new Date()).toString().split("GMT")[0]);
+
+
+let counter_background_real = 0;
+let counter_background_of_popup = 0;
+let counter_background_of_content = 0;
+let counter_background_of_database = 0;
+
+
+
+chrome.runtime.onInstalled.addListener(() => {
+
+    console.log("chrome.runtime.onInstalled.addListener background.js");
+    console.log((new Date()).toString().split("GMT")[0]);
+
+    chrome.action.setBadgeText({
+        text: "OFF",
+    });
+});
+
+const extensions = 'https://developer.chrome.com/docs/extensions'
+const webstore = 'https://developer.chrome.com/docs/webstore'
+
+
+/*in mainfest.json 
+    "action": {
+    "default_popup": "popup/popup.html",
+    }
+
+    You cannot have a "popup" with an onclick event. 
+    Remove the popup.html from the manifest file. 
+    And keep the background page, and it will work.
+*/
+chrome.action.onClicked.addListener(async (tab) => {
+
+    console.log("chrome.action.onClicked.addListener background.js");
+    console.log((new Date()).toString().split("GMT")[0]);
+
+
+    if (tab.url.startsWith(extensions) || tab.url.startsWith(webstore)) {
+        // Retrieve the action badge to check if the extension is 'ON' or 'OFF'
+        const prevState = await chrome.action.getBadgeText({ tabId: tab.id });
+        // Next state will always be the opposite
+        const nextState = prevState === 'ON' ? 'OFF' : 'ON'
+
+        console.log("changing state");
+        console.log((new Date()).toString().split("GMT")[0]);
+
+        // Set the action badge to the next state
+        await chrome.action.setBadgeText({
+            tabId: tab.id,
+            text: nextState,
+        });
+
+        console.log(" state changed");
+        console.log((new Date()).toString().split("GMT")[0]);
+
+        // if (nextState === "ON") {
+        //     // Insert the CSS file when the user turns the extension on
+        //     await chrome.scripting.insertCSS({
+        //         files: ["./focus-mode.css"],
+        //         target: { tabId: tab.id },
+        //     });
+        // } else if (nextState === "OFF") {
+        //     // Remove the CSS file when the user turns the extension off
+        //     await chrome.scripting.removeCSS({
+        //         files: ["./focus-mode.css"],
+        //         target: { tabId: tab.id },
+        //     });
+        // }
+
+
+    }
+});
+
+
+
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+
+        console.log(sender);
+        // { id: 'jcdlgofdodghbbbdgijdepgppnaknahm', 
+        // url: 'chrome-extension://jcdlgofdodghbbbdgijdepgppnaknahm/popup/popup.html', 
+        // origin: 'chrome-extension://jcdlgofdodghbbbdgijdepgppnaknahm' }
+
+        console.log(request); //{msg: 'input_text_p2b'}
+
+        if (request.msg === "hello") {
+            sendResponse({ reply: "reply from bg " + (new Date()).toString().split("GMT")[0] });
+        } else if (request.msg === "delay") {
+            setTimeout(function () {
+                console.log(""+ (new Date()).toString().split("GMT")[0]);
+
+                // chrome.tabs.sendMessage(sender.id, { greeting: "hello delayed " + (new Date()).toString().split("GMT")[0] }, function (response) {
+                //     console.log(response);
+                // });
+
+                chrome.runtime.sendMessage( { greeting: "hello delayed " + (new Date()).toString().split("GMT")[0] }, function (response) {
+                    console.log(response);
+                });
+
+
+            }, 2000);
+            sendResponse({ reply: "SOON " + (new Date()).toString().split("GMT")[0] })
+        } else {
+            sendResponse({ reply: "ERROR" })
+        }
+
+    }
+);
+
+
+console.log("END background.js");
+console.log((new Date()).toString().split("GMT")[0]);
+
